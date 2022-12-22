@@ -7,6 +7,8 @@ pipeline {
           echo "testing stage"
           docker --version
           docker-compose --version
+          ansible --version
+          ansible-playbook --version
         '''
       }
     }
