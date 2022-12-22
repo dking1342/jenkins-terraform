@@ -1,0 +1,6 @@
+version: '3.4'
+services:
+  jenkins-demo:
+    image: "kavooce42/jenkins-demo"
+    ports:
+      - "5173:80"

@@ -1,0 +1,19 @@
+- name: Install new application
+  become: true
+  hosts: droplets
+
+  tasks:
+    - name: Pull docker image
+      ansible.builtin.shell: docker pull kavooce42/jenkins-demo:latest
+      register: pull
+      changed_when: pull.rc != 0
+
+    - name: Docker compose up
+      ansible.builtin.shell: docker-compose -f docker-compose.yaml up -d --build
+      register: compose
+      changed_when: compose.rc != 0
+
+    - name: End of playbook
+      ansible.builtin.shell: echo "End of playbook"
+      register: end
+      changed_when: end.rc != 0
