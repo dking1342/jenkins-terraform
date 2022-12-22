@@ -5,7 +5,7 @@ pipeline {
       steps {
         sh '''
           java --version
-          env
+          sudo apt update
         '''
       }
     }
