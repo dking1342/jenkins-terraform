@@ -12,8 +12,3 @@
       ansible.builtin.shell: docker-compose -f docker-compose.yaml up -d --build
       register: compose
       changed_when: compose.rc != 0
-
-    - name: End of playbook
-      ansible.builtin.shell: echo "End of playbook"
-      register: end
-      changed_when: end.rc != 0

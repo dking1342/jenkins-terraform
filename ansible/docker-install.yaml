@@ -1,0 +1,7 @@
+- name: Install docker
+  become: true
+  hosts: droplets
+
+  tasks:
+    - name: Step 1
+      

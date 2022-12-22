@@ -82,9 +82,15 @@ pipeline {
       }
     }
 
-    stage('Ansible Playbook') {
+    stage('Docker Playbook') {
       steps {
-        sh 'ansible-playbook ./ansible/application-install.yaml -vvvv'
+        sh 'ansible-playbook ./ansible/docker-install.yaml -vv'
+      }
+    }
+
+    stage('Application Playbook') {
+      steps {
+        sh 'ansible-playbook ./ansible/apache-install.yaml -vv'
       }
     }
   }
