@@ -16,9 +16,9 @@ pipeline {
     stage('Chmod for ssh') {
       steps {
         sh '''
-          sudo ls -la ~/.ssh
-          sudo ls -la ~/.ssh/do_key_01
-          sudo ls -la ~/.ssh/do_key_01.pub
+          sudo -i ls -la ~/.ssh
+          sudo -i ls -la ~/.ssh/do_key_01
+          sudo -i ls -la ~/.ssh/do_key_01.pub
         '''
       }
     }
