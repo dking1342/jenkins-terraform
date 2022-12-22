@@ -4,9 +4,7 @@ pipeline {
     stage('Update') {
       steps {
         sh '''
-          whoami
-          sudo -v
-          sudo -l
+          terraform --version
         '''
       }
     }
