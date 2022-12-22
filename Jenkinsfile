@@ -56,7 +56,7 @@ pipeline {
             rm ./ansible/hosts.ini
           fi && \
           echo "[droplets]" > ./ansible/hosts.ini
-          curl --header "Authorization: Bearer ${TF_TOKEN}" --header "Content-Type: application/vnd.api+json" "https://app.terraform.io/api/v2/workspaces/$TF_PROJECT/current-state-version?include=outputs" | grep -Eo "[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}" >> ./ansible/hosts.ini
+          curl --header "Authorization: Bearer ${TF_TOKEN}" --header "Content-Type: application/vnd.api+json" "https://app.terraform.io/api/v2/workspaces/$TF_PROJECT/current-state-version?include=outputs" | grep -Eo "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}" >> ./ansible/hosts.ini
         '''
       }
     }
