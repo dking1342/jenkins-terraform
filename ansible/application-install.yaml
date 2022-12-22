@@ -1,5 +1,6 @@
 - name: Install new application
   become: true
+  gather_facts: false
   hosts: droplets
 
   tasks:
