@@ -1,6 +1,15 @@
 pipeline {
   agent any
   stages {
+    stage('Export DO') {
+      steps {
+        sh '''
+          echo "${DO_PAT}"
+          echo ${DO_PAT}
+        '''
+      }
+    }
+
     stage('Terraform Format') {
       steps {
         sh 'cd terraform && terraform fmt -check'
@@ -21,7 +30,7 @@ pipeline {
 
     stage('Terraform Plan') {
       steps {
-        sh 'cd terraform && terraform plan -var "do_token=${DO_PAT}" -var "pvt_key=~/.ssh/do_key_01" -var "pub_key=~/.ssh/do_key_01.pub"'
+        sh 'cd terraform && terraform plan -var "do_token=${env.DO_PAT}" -var "pvt_key=~/.ssh/do_key_01" -var "pub_key=~/.ssh/do_key_01.pub"'
       }
     }
   }
