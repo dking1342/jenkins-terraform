@@ -1,0 +1,40 @@
+- name: Install apache server
+  become: true
+  hosts: droplets
+
+  tasks:
+    - name: Add the user 'sammy' and add it to 'sudo'
+      ansible.builtin.user:
+        name: sammy
+        group: sudo
+
+    - name: Add SSH key to sammy
+      ansible.posix.authorized_key:
+        user: sammy
+        state: present
+        key: "{{ lookup('file', pub_key) }}"
+
+    - name: Wait for apt to unlock
+      become: true
+      ansible.builtin.shell: while sudo fuser /var/lib/dpkg/lock >/dev/null 2>&1; do sleep 5; done;
+      register: apt_unlock
+      changed_when: apt_unlock.rc != 0
+
+    - name: Install apache2
+      ansible.builtin.apt:
+        name: apache2
+        update_cache: true
+        state: present
+
+    - name: Enable mod_rewrite
+      community.general.apache2_module:
+        name: rewrite
+        state: present
+      notify:
+        - Restart apache2
+
+  handlers:
+    - name: Restart apache2
+      ansible.builtin.service:
+        name: apache2
+        state: restarted
