@@ -6,6 +6,7 @@ pipeline {
         sh '''
           echo "testing stage"
           docker --version
+          docker-compose --version
         '''
       }
     }
@@ -61,26 +62,20 @@ pipeline {
       }
     }
 
-    stage('Show Hosts') {
+    stage('Sleep') {
       steps {
-        sh 'cat ./ansible/hosts.ini'
+        sh '''
+          sleep 10
+        '''
       }
     }
 
-    // stage('Sleep') {
-    //   steps {
-    //     sh '''
-    //       sleep 10
-    //     '''
-    //   }
-    // }
-
-    // stage('Ansible Playbook') {
-    //   steps {
-    //     sh '''
-    //       ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -e "pub_key=~/.ssh/do_key_01.pub" ./ansible/application-install.yaml
-    //     '''
-    //   }
-    // }
+    stage('Ansible Playbook') {
+      steps {
+        sh '''
+          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -e "pub_key=~/.ssh/do_key_01.pub" ./ansible/application-install.yaml
+        '''
+      }
+    }
   }
 }
