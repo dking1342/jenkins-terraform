@@ -3,7 +3,10 @@ pipeline {
   stages {
     stage('Update') {
       steps {
-        apt update
+        sh '''
+          whoami
+          id
+        '''
       }
     }
   }
