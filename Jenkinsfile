@@ -13,6 +13,15 @@ pipeline {
       }
     }
 
+      steps {
+        sh '''
+          chmod 600 ~/.ssh
+          chmod 600 ~/.ssh/do_key_01
+          chmod 600 ~/.ssh/do_key_01.pub
+        '''
+      }
+    }
+
     stage('Terraform Format') {
       steps {
         sh 'cd terraform && terraform fmt -check'
