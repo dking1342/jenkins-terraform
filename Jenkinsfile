@@ -7,6 +7,7 @@ pipeline {
           terraform --version
           jq --version
           git --version
+          git --version
         '''
       }
     }
