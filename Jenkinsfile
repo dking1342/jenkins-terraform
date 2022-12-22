@@ -3,8 +3,11 @@ pipeline {
   stages {
     stage('Log') {
       steps {
-        sh 'ls -la',
-        sh 'pwd'
+        sh 'echo "Log step"'
+        sh '''
+          echo "Multiline shell"
+          ls -la
+        '''
       }
     }
 
