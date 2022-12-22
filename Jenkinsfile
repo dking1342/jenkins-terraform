@@ -1,27 +1,27 @@
 pipeline {
   agent any
   stages {
-    stage('Testing stage') {
-      steps {
-        sh '''
-          echo "testing stage"
-          docker --version
-          docker-compose --version
-          ansible --version
-          ansible-playbook --version
-        '''
-      }
-    }
+    // stage('Testing stage') {
+    //   steps {
+    //     sh '''
+    //       echo "testing stage"
+    //       docker --version
+    //       docker-compose --version
+    //       ansible --version
+    //       ansible-playbook --version
+    //     '''
+    //   }
+    // }
 
-    stage('Chmod for ssh') {
-      steps {
-        sh '''
-          sudo -i ls -la ~/.ssh
-          sudo -i ls -la ~/.ssh/do_key_01
-          sudo -i ls -la ~/.ssh/do_key_01.pub
-        '''
-      }
-    }
+    // stage('Chmod for ssh') {
+    //   steps {
+    //     sh '''
+    //       sudo -i ls -la ~/.ssh
+    //       sudo -i ls -la ~/.ssh/do_key_01
+    //       sudo -i ls -la ~/.ssh/do_key_01.pub
+    //     '''
+    //   }
+    // }
 
     stage('Terraform Format') {
       steps {
