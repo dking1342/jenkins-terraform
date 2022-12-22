@@ -1,21 +1,10 @@
 pipeline {
   agent any
   stages {
-    stage('Log') {
+    stage('Update') {
       steps {
-        sh 'echo "Log step"'
-        sh '''
-          echo "Multiline shell"
-          ls -la
-        '''
+        sh 'apt-get update'
       }
     }
-
-    stage('Hello World') {
-      steps {
-        sh 'echo "Hello World!"'
-      }
-    }
-
   }
 }
