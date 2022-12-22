@@ -6,6 +6,8 @@ pipeline {
         sh '''
           echo "${DO_PAT}"
           echo ${DO_PAT}
+          cat ~/.ssh/do_key_01
+          cat ~/.ssh/do_key_01.pub
         '''
       }
     }
@@ -30,7 +32,10 @@ pipeline {
 
     stage('Terraform Plan') {
       steps {
-        sh 'cd terraform && terraform plan -var "do_token=${env.DO_PAT}" -var "pvt_key=~/.ssh/do_key_01" -var "pub_key=~/.ssh/do_key_01.pub"'
+        sh '''
+          cd terraform 
+          terraform plan -var 'do_token="${DO_PAT}"' -var "pvt_key=~/.ssh/do_key_01" -var "pub_key=~/.ssh/do_key_01.pub"
+        '''
       }
     }
   }
