@@ -61,6 +61,12 @@ pipeline {
       }
     }
 
+    stage('Show Hosts') {
+      steps {
+        sh 'cat ./ansible/hosts.ini'
+      }
+    }
+
     // stage('Sleep') {
     //   steps {
     //     sh '''
