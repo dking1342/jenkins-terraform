@@ -84,9 +84,7 @@ pipeline {
 
     stage('Ansible Playbook') {
       steps {
-        sh '''
-          ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -e "pub_key=~/.ssh/do_key_01.pub" ./ansible/application-install.yaml -vvvv
-        '''
+        sh 'ansible-playbook ./ansible/application-install.yaml -vvvv'
       }
     }
   }
