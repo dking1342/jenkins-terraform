@@ -3,7 +3,10 @@ pipeline {
   stages {
     stage('Update') {
       steps {
-        sh 'apt update'
+        sh '''
+          java --version
+          env
+        '''
       }
     }
   }
