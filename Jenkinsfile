@@ -5,7 +5,8 @@ pipeline {
       steps {
         sh '''
           whoami
-          id
+          sudo -v
+          sudo -l
         '''
       }
     }
