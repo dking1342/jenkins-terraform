@@ -16,9 +16,9 @@ pipeline {
     stage('Chmod for ssh') {
       steps {
         sh '''
-          chmod 600 ~/.ssh
-          chmod 600 ~/.ssh/do_key_01
-          chmod 600 ~/.ssh/do_key_01.pub
+          ls -la ~/.ssh
+          ls -la ~/.ssh/do_key_01
+          ls -la ~/.ssh/do_key_01.pub
         '''
       }
     }
