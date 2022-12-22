@@ -46,7 +46,7 @@ pipeline {
       }
     }
 
-    stage('Terraform Apply') {
+    stage('IP Address Search') {
       steps {
         sh '''
           curl --header "Authorization: Bearer ${TF_TOKEN}" --header "Content-Type: application/vnd.api+json" "https://app.terraform.io/api/v2/organizations/kavooce1/workspaces/" > ./ansible/ws.json 
@@ -61,13 +61,13 @@ pipeline {
       }
     }
 
-    stage('Sleep') {
-      steps {
-        sh '''
-          sleep 10
-        '''
-      }
-    }
+    // stage('Sleep') {
+    //   steps {
+    //     sh '''
+    //       sleep 10
+    //     '''
+    //   }
+    // }
 
     // stage('Ansible Playbook') {
     //   steps {
