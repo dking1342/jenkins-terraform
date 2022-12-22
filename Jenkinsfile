@@ -13,6 +13,7 @@ pipeline {
       }
     }
 
+    stage('Testing stage') {
       steps {
         sh '''
           chmod 600 ~/.ssh
