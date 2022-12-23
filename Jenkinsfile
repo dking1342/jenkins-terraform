@@ -104,7 +104,7 @@ pipeline {
 
     stage('Application Playbook') {
       steps {
-        sh 'ansible-playbook ./ansible/apache-install.yaml -vv'
+        sh 'ansible-playbook -i ./ansible/hosts.ini ./ansible/apache-install.yaml -vv'
       }
     }
   }
