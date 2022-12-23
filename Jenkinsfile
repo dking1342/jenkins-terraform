@@ -78,6 +78,7 @@ pipeline {
             sh '''
                 touch ./ansible/hosts.ini
                 chmod 777 ./ansible/hosts.ini
+                echo "[droplets]" > ./ansible/hosts.ini
             '''
         }
     }
