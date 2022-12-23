@@ -23,7 +23,7 @@ provider "digitalocean" {
 }
 
 resource "digitalocean_droplet" "web" {
-  count  = 4
+  count  = 1
   image  = "ubuntu-18-04-x64"
   name   = "web-${count.index}"
   region = "nyc1"
