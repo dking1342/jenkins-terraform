@@ -111,8 +111,7 @@ pipeline {
 
     stage('Application Playbook') {
       steps {
-        // sh 'ansible-playbook -i ./ansible/hosts.ini -e "pub_key=~/.ssh/do_key_01.pub" ./ansible/apache-install.yaml -vv'
-        sh 'ansible-playbook -e "pub_key=~/.ssh/do_key_01.pub" ./ansible/apache-install.yaml'
+        sh 'ansible-playbook -i ./ansible/hosts.ini -e "pub_key=~/.ssh/do_key_01.pub" ./ansible/apache-install.yaml -vv'
       }
     }
   }
