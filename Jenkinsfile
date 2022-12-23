@@ -93,6 +93,12 @@ pipeline {
             '''
         }
     }
+
+    stage('Host IPs') {
+      steps {
+        sh 'cat ./ansible/hosts.ini'
+      }
+    }
     
     stage('Sleep') {
       steps {
