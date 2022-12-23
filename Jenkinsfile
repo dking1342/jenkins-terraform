@@ -32,7 +32,7 @@ pipeline {
       steps {
         sh '''
           cd terraform 
-          terraform plan -var "do_token=${DO_PAT}" -var "pvt_key=~/.ssh/do_key_01" -var "pub_key=~/.ssh/do_key_01.pub"
+          terraform apply -var "do_token=${DO_PAT}" -var "pvt_key=~/.ssh/do_key_01" -var "pub_key=~/.ssh/do_key_01.pub"
         '''
       }
     }
