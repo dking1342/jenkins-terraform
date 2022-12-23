@@ -1,28 +1,6 @@
 pipeline {
   agent any
   stages {
-    // stage('Testing stage') {
-    //   steps {
-    //     sh '''
-    //       echo "testing stage"
-    //       docker --version
-    //       docker-compose --version
-    //       ansible --version
-    //       ansible-playbook --version
-    //     '''
-    //   }
-    // }
-
-    // stage('Chmod for ssh') {
-    //   steps {
-    //     sh '''
-    //       sudo -i ls -la ~/.ssh
-    //       sudo -i ls -la ~/.ssh/do_key_01
-    //       sudo -i ls -la ~/.ssh/do_key_01.pub
-    //     '''
-    //   }
-    // }
-
     stage('Terraform Format') {
       steps {
         sh 'cd terraform && terraform fmt -check'
@@ -58,33 +36,69 @@ pipeline {
         '''
       }
     }
-
-    stage('IP Address Search') {
-      steps {
-        sh '''
-          curl --header "Authorization: Bearer ${TF_TOKEN}" --header "Content-Type: application/vnd.api+json" "https://app.terraform.io/api/v2/organizations/kavooce1/workspaces/" > ./ansible/ws.json 
-          export TF_PROJECT=$(cat ./ansible/ws.json | jq '.data[0].id' | sed 's/\"//g')
-          curl --header "Authorization: Bearer ${TF_TOKEN}" --header "Content-Type: application/vnd.api+json" "https://app.terraform.io/api/v2/workspaces/$TF_PROJECT/current-state-version?include=outputs" > ./ansible/outputs.json
-          if test -f "./ansible/hosts.ini"; then
-            rm ./ansible/hosts.ini
-          fi && \
-          echo "[droplets]" > ./ansible/hosts.ini
-          curl --header "Authorization: Bearer ${TF_TOKEN}" --header "Content-Type: application/vnd.api+json" "https://app.terraform.io/api/v2/workspaces/$TF_PROJECT/current-state-version?include=outputs" | grep -Eo "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}" >> ./ansible/hosts.ini
-        '''
-      }
+    
+    stage('File Removal') {
+        steps {
+            sh '''
+              if test -f "./ansible/hosts.ini"; then
+                rm ./ansible/hosts.ini
+              fi
+              if test -f "./ansible/ws.json"; then
+                rm ./ansible/ws.json
+              fi
+              if test -f "./ansible/outputs.json"; then
+                rm ./ansible/outputs.json
+              fi
+            '''
+        }
+    }
+    
+    stage('TF Token') {
+        steps {
+            sh '''
+              curl --header "Authorization: Bearer ${TF_TOKEN}" --header "Content-Type: application/vnd.api+json" "https://app.terraform.io/api/v2/organizations/kavooce1/workspaces/" > ./ansible/ws.json
+            '''
+        }
+    }
+    
+    stage('Cloud Output') {
+        steps {
+            script {
+                project=""
+            }
+            sh '''
+                project=$(cat ./ansible/ws.json | jq '.data[0].id' | sed 's/\"//g')
+                curl --header "Authorization: Bearer ${TF_TOKEN}" --header "Content-Type: application/vnd.api+json" "https://app.terraform.io/api/v2/workspaces/${project}/current-state-version?include=outputs" > ./ansible/outputs.json
+            '''
+        }
     }
 
+    stage('Host File') {
+        steps {
+            sh '''
+                touch ./ansible/hosts.ini
+                chmod 777 ./ansible/hosts.ini
+            '''
+        }
+    }
+
+    stage('Host Inventory') {
+        steps {
+            script {
+                project=""
+            }
+            sh '''
+                project=$(cat ./ansible/ws.json | jq '.data[0].id' | sed 's/\"//g')
+                curl --header "Authorization: Bearer ${TF_TOKEN}" --header "Content-Type: application/vnd.api+json" "https://app.terraform.io/api/v2/workspaces/${project}/current-state-version?include=outputs" | grep -Eo "[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}" >> ./ansible/hosts.ini
+            '''
+        }
+    }
+    
     stage('Sleep') {
       steps {
         sh '''
           sleep 10
         '''
-      }
-    }
-
-    stage('Docker Playbook') {
-      steps {
-        sh 'ansible-playbook ./ansible/docker-install.yaml -vv'
       }
     }
 
